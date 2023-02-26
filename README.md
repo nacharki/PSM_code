@@ -5,6 +5,6 @@ This repositery contains the jupyter notebook and the script to be used in the b
 The notebook contains an illustration of the propensity score matching on a public dataset.
   
 ### Back-end
-The back-end is developed using python. It contains the class PropensityScoreMatching.py and all necessary methods:
+The back-end is developed using python. It contains the class PropensityMatching.py and all necessary methods:
 
-Note that Galaxy's methods require three librairies: _numpy_, _pandas_, _seaborn_, _sklearn_ and _TableOne_.
+Note that PropensityMatching's methods require the following librairies: _numpy_, _pandas_, _seaborn_, _sklearn_ and _TableOne_.
