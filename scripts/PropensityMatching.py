@@ -16,9 +16,9 @@ class PropensityMatching:
                  threshold =  5e-3 , max_rand = 10, nmatches = 1):
         """ 
         Basic options
-            - model: the average of the outcome on control/untreated units
-            - threshold: the average of the outcome on treated units
-            - nmatches: the average treatment effects between treated and control units
+            - Treatment_W: A binary variable defining the “treatment or intervention” of interest
+            - Covariates_X: Features i.e. inputs variable for each unit
+            - outcome_Y: The outcome variable corresponding to each intervention/treatment value
         The values of this list will be used to draw barplots in the web-application (front)
         """
         self.Treatment_W = Treatment_W
@@ -32,10 +32,12 @@ class PropensityMatching:
         
         """ 
         Advanced options
-            - model: the average of the outcome on control/untreated units
-            - threshold: the average of the outcome on treated units
-            - nmatches: the average treatment effects between treated and control units
-            - method
+            - model: A supervised classification model to estimate the propensity score; Three possible values
+            are - LogisticRegression, RandomForest and GradientBoosting
+            - threshold: The threshold below which we look for the possibly matched units in control units
+            - nmatches: The number of control units to match with from a given treated unit
+            - max_rand: The maximum of allowed matched units when applying "Random" method
+            - method: The choosen method of matching; Two possible values are - min or random.
         The values of this list will be used to draw barplots in the web-application (front)
         """
         self.model = model
@@ -52,10 +54,6 @@ class PropensityMatching:
             - Observed_ATE: the average treatment effects between treated and control units
         The values of this list will be used to draw barplots in the web-application (front)
         """
-        # Sample observed treated and control units    
-        obs_treated = self.obs_df[self.obs_df[self.Treatment_name]==1]
-        obs_ctrl = self.obs_df[self.obs_df[self.Treatment_name]==0]
-         
         # Compute the average apparent effect before matching 
         Avg_treated = self.outcome_Y[self.Treatment_W == 1].mean()
         Avg_ctrl = self.outcome_Y[self.Treatment_W == 0].mean()
@@ -98,8 +96,9 @@ class PropensityMatching:
     def matching(self) -> list:
         """ 
         Run the algorithm of matching and generate two lists:
-            - match_ids: a list containing the index of each treated unit
-            - result: a list containing the index of the matched control units
+            - match_ids: a list containing the number of matching iteration
+            - result: a list containing, for each match_id, the index of the treated units with the matched
+            control unit
         """
         # Estimate the propensity score
         ps_estimate = self.propensity_estimate()
