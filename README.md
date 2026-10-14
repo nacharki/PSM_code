@@ -1,5 +1,5 @@
 # Propensity Score Matching
-This repositery contains the jupyter notebook and the script to be used in the back-end of the API of "CausalAI" web application.
+This repositery contains the jupyter notebook and the script to be used in the back-end of the API of CausalAI web application.
 
 ### Jupyter notebook
 The notebook contains an illustration of the propensity score matching on a public dataset.
